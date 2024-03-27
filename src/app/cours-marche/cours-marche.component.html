@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>FormWizard_v1</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="colorlib.com">
+
+		<!-- MATERIAL DESIGN ICONIC FONT -->
+		<link  href="/assets/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+
+		<!-- STYLE CSS -->
+		<link  href="/assets/css/style.css">
+    <style>/* button{font-size: small;} */</style>
+	</head>
+	<body>
+		<div class="wrapper">
+            <form action="" id="wizard">
+        		<!-- SECTION 1 -->
+                <section>
+                    <div class="inner" >
+						<div class="image-holder" *ngIf="div2">
+							<img src="/assets/images/form-wizard-1.jpg" alt="">
+						</div>
+						<div class="form-content" ><div *ngIf="div3"><div style="	padding-top: 65px;
+              ">
+							<div class="form-header">
+								<h3>Cours de change</h3>
+							</div>
+<br><br><br>
+
+<div style="padding-left: 10%;">
+                      <div class="form-group row">
+                        <label for="colFormLabel" class="col-sm-3 col-form-label">Choisir une date</label>
+                        <div class="col-sm-7" >
+                          <input type="date" max="3000-01-01" onfocus="this.max=new Date().toLocaleDateString('fr-ca')"
+                          class="form-control"  [(ngModel)]="date1"  [ngModelOptions]="{standalone: true}"
+                           style="width: 50vh;height: 6vh;" ><!-- (change)="getByDate(changeDateFormat(date1));"  -->
+                        </div><br><br>
+                        <label for="colFormLabel" class="col-sm-3 col-form-label">Choisir une marché</label>
+
+                        <div class="col-sm-5">
+                          <select class="form-control"  id="allocation-algorithm" style="width: 50vh;height: 6vh;"
+                          [(ngModel)]="this.marche"  [ngModelOptions]="{standalone : true} "  >
+                          <option value="" selected="selected" hidden="hidden">Choose here</option>
+
+                            <option value="1" >Marché international</option>
+                            <option value="2" selected>Marché interbancaires</option>
+                            <option value="3">Marché des titres de créances négociables</option>
+                            <option value="4">Marché BTF</option>
+                          </select>
+                        </div>
+
+
+
+                        <br><br>
+                     <!--   <div class="form-group row">
+
+                        <label  for="colFormLabel" class="col-sm-3 col-form-label">Choisir une marché</label>
+                        <div class="col-sm-5">
+                         <select class="form-control" id="allocation-algorithm" style="width: 50vh;height: 6vh;" [(ngModel)]="this.devi"  [ngModelOptions]="{standalone : true} "
+
+                         (change)="statDev();">
+                           <option value="EUR">EUR</option>
+                           <option value="USD">USD</option>
+                           <option value="GPB">GPB</option>
+                           <option value="JPY">JPY</option>
+                           <option value="QAD">QAD</option>
+                         </select>
+                         {{this.devi}}
+                       </div></div> -->
+
+
+
+<!--                           <canvas id="myChart" width="400" height="400">{{chart}}</canvas>
+ --><br><br><br><br><div class="form-group row"><label for="colFormLabel" class="col-sm-3 col-form-label"></label>
+                    <button class="btn btn-bh align-items-center "  style="width: 360px;text-align: center;" (click)="getCours(changeDateFormat(date1),this.marche);div1Function()" >
+                      <div >Submit</div></button>
+
+                      </div>
+                       <div class="form-group row">
+                      </div>
+
+
+                       <!--  <div class="col-sm-5">
+                          <select class="form-control" id="allocation-algorithm" [(ngModel)]="this.devi"  [ngModelOptions]="{standalone : true} "  >
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GPB">GPB</option>
+                            <option value="JPY">JPY</option>
+                            <option value="QAD">QAD</option>
+                          </select>
+                          {{this.devi}}
+                        </div> --></div>
+
+ </div> </div>
+
+                    						</div>
+					</div></div>
+
+				<!-- SECTION 2 -->
+        <div *ngIf="div1"      >
+          <table   class="table table-hover  ">
+            <thead class="  table-dark">
+              <tr>
+                <th scope="col">Dev</th>
+                <th scope="col">Date</th>
+               <th scope="col">Mrch</th>
+                <th scope="col">BCT.A</th>
+                <th scope="col">BCT.V</th>
+                <th scope="col">BH.A</th>
+                <th scope="col">BH.V</th>
+                <th scope="col">Unt</th>
+                <th scope="col">Etat Env</th>
+                <th scope="col" style="text-align: center;">Action</th>
+              </tr>
+            </thead>
+           <tbody>
+              <tr *ngFor='let p of listCours'>
+                <td >{{p.dev}}</td>
+                <td >{{p.dte}}</td>
+              <td >{{p.mrch}}</td>
+                <td >{{p.bctA}}</td>
+                <td >{{p.bctV}}</td>
+                <td >{{p.bhA}}</td>
+                <td >{{p.bhV}}</td>
+                <td >{{p.unt}}</td>
+                <td >{{p.etatEnv}}</td>
+
+                 <td><button type="button" class="btn btn-outline-primary" [disabled]="p.etatEnv=='Validé'||p.etatEnv=='Confirmé'||this.role==3"
+                        (click)="open(mymodal)" ><i class="bi bi-pencil-square"></i>Modifier</button>&nbsp;
+
+
+                        <button id="checkBtn" class="btn btn-outline-secondary"
+                        (click)="p.etatEnv='Validé';editCours(p);"
+                        [disabled]="p.etatEnv=='Validé'||p.etatEnv=='Confirmé'||this.role!=2 "> <i class="bi bi-check2-circle"></i> Valider</button>
+
+
+
+
+                         &nbsp;<button class="btn btn-outline-success" (click)="p.etatEnv='Confirmé';editCours(p);"
+                         [disabled]="p.etatEnv=='Confirmé'||this.role!=3">
+                          <i class="fab fa-android" aria-hidden="true"></i> Confirmer</button>
+                         &nbsp;<button  class="btn btn-outline-dark" (click)="open(mymodal2)"
+                         [disabled]="p.etatEnv!='Confirmé'||exportCheck()!=true">
+                         <i class="bi bi-download" ></i> Export</button>
+
+          <!-- Describe modal 1  -->
+                        <ng-template #mymodal let-modal>
+                          <div class="modal-header">
+                              <h4 class="modal-title" id="modal-basic-title">Edit</h4>
+                              <button type="button" class="close" aria-label="Close"
+                                  (click)="modal.dismiss('Cross click')">
+                                  <span aria-hidden="true" (click)="cancel()">×</span>
+
+                              </button>
+
+                          </div>
+                          <div>
+                            <form>
+                              <div class="modal-body" style=" display: flex;
+                              flex-direction: row;margin-top: 10px;padding-bottom: 25vh;padding-top: 10vh; text-align: center;">
+
+                                  <div class="row"  style="flex: 1;
+                                  padding-right: 30px;">
+                                      <label>BH Achat</label>
+                                      <input class="form-control" [(ngModel)]="p.bhA" [ngModelOptions]="{standalone : true}" required />
+                                  </div>
+                                  <div class="row" style="flex: 1;padding-right: 30px;" type="text">
+                                      <label>BH Vente</label>
+                                      <input type="number" class="form-control" [(ngModel)]="p.bhV" [ngModelOptions]="{standalone : true}" required/>
+                                  </div>
+
+                              </div>
+
+                              <div class="modal-footer">
+
+                                  <button type="button" class="btn btn-outline-secondary"
+                                      (click)="modal.close('Save click')" (click)="cancel()">Cancel</button>
+                                  <button class="btn btn-outline-primary"(click)="editCours(p)" (click)="modal.close('Save click')">Validate</button>
+                              </div>
+                          </form>
+                      </div>
+                      </ng-template>
+                 </td></tr>
+
+
+
+
+
+                 <ng-template #mymodal3 let-modal >
+                  <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">Edit</h4>
+                      <button type="button" class="close" aria-label="Close"
+                          (click)="modal.dismiss('Cross click')">
+                          <span aria-hidden="true" (click)="cancel()">×</span>
+
+                      </button>
+                    </div>
+
+              </ng-template>
+
+          <!-- Describe modal 2 -->
+
+          <ng-template #mymodal2 let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Export</h4>
+                <button type="button" class="close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true" (click)="cancel()">×</span>
+
+                </button>
+
+            </div>
+
+          <table  mat-table matTableExporter [dataSource]="listCours"
+          #exporter="matTableExporter"   class="table table-hover  table-responsive">
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+
+          <ng-container matColumnDef="dev">
+            <th mat-header-cell *matHeaderCellDef class="table-secondary">DEV</th>
+
+            <td mat-cell *matCellDef="let p"> {{p.dev}} </td>
+
+          </ng-container>
+          <ng-container matColumnDef="bhA">
+            <th mat-header-cell *matHeaderCellDef class="table-secondary">BHA</th>
+
+            <td mat-cell *matCellDef="let p"> {{p.bhA}} </td>
+          </ng-container>
+          <ng-container matColumnDef="bhV">
+            <th mat-header-cell *matHeaderCellDef class="table-secondary">BHV</th>
+
+            <td mat-cell *matCellDef="let p"> {{p.bhV}} </td>
+
+          </ng-container>
+           <ng-container matColumnDef="moy">
+
+          <th mat-header-cell *matHeaderCellDef class="table-secondary">BHM</th>
+
+          <td mat-cell *matCellDef="let p">  {{(p.bhV *p.bhA)/2}} </td>
+
+          </ng-container>
+
+          </table>
+          <button mat-raised-button (click)="exporter.exportTable('txt',{fileName:'CoursMarche'})" class="btn-outline-success">TXT
+           <!--  <i class="bi bi-file-earmark-excel bi-bounce"></i><i class="fa-regular fa-file-excel fa-bounce"></i> -->
+          </button>
+          <button mat-raised-button (click)="exporter.exportTable('xlsx',{fileName:'CoursMarche'})"><i class="fa fa-home"></i> Excel</button>
+          <button mat-raised-button (click)="exporter.exportTable('json',{fileName:'CoursMarche'})">JSON</button>
+          </ng-template>
+
+
+
+
+
+
+           </tbody></table>
+           <div class="form-group row">
+
+            <label  for="colFormLabel" class="col-sm-3 col-form-label">Choisir une devise pour visualisez son historique</label>
+            <div class="col-sm-5">
+             <select class="form-control" id="allocation-algorithm" style="width: 50vh;height: 6vh;" [(ngModel)]="this.devi"  [ngModelOptions]="{standalone : true} "
+
+             (change)="statDev();">
+               <option value="EUR">EUR</option>
+               <option value="USD">USD</option>
+               <option value="GPB">GPB</option>
+               <option value="JPY">JPY</option>
+               <option value="QAD">QAD</option>
+             </select>
+           </div></div>
+
+          <div *ngIf="this.div4">
+                    <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}" (chartInstance)="getChartInstance($event)">
+
+                    </canvasjs-chart>
+                  </div></div>
+        </section>
+
+                <!-- SECTION 3 -->
+                <h2></h2>
+
+            </form>
+		</div>
+
+		<!-- JQUERY -->
+		<script src="/assets/js/jquery-3.3.1.min.js"></script>
+
+		<!-- JQUERY STEP -->
+		<script src="/assets/js/jquery.steps.js"></script>
+		<script src="/assets/js/main.js"></script>
+		<!-- Template created and distributed by Colorlib -->
+
+
+  </body>
+</html>
